@@ -2,6 +2,7 @@ import cv2
 import time
 from emailing import send_email
 import glob
+import os
 
 video = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
@@ -13,6 +14,13 @@ time.sleep(1)
 first_frame = None
 status_list = []
 count = 1
+
+
+def clean_folder():
+    images = glob.glob("image/*.png")
+    for image in images:
+        os.remove(image)
+
 
 while video.isOpened():
     status = 0
@@ -50,11 +58,12 @@ while video.isOpened():
         index = int(len(all_images) / 2)
         image_with_obj = all_images[index]
         send_email(image_with_obj)
+        clean_folder()
     
     cv2.imshow('My Video', frame)
     key = cv2.waitKey(1)
     if key == ord('q'):
         break
-    
+
 video.release()
 cv2.destroyAllWindows()
