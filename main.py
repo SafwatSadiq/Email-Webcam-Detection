@@ -33,13 +33,11 @@ while video.isOpened():
     
     if first_frame is None:
         first_frame = gray_frame_gau
-        cv2.imwrite("image.png", gray_frame_gau)
     
     delta_frame = cv2.absdiff(first_frame, gray_frame_gau)
     
     thresh_frame = cv2.threshold(delta_frame, 60, 255, cv2.THRESH_BINARY)[1]
     dile_frame = cv2.dilate(thresh_frame, None, iterations=2)
-    cv2.imwrite("image.png", dile_frame)
     
     contours, check = cv2.findContours(dile_frame, cv2.RECURS_FILTER, cv2.CHAIN_APPROX_SIMPLE)
     
